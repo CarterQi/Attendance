@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <link href="js/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+    <link href="js/lib/ligerUI/skins/ligerui-icons.css" rel="stylesheet" type="text/css" />
+    <script src="js/lib/jquery/jquery-1.9.0.min.js" type="text/javascript"></script>
+    <script src="js/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
+    <script src="js/lib/ligerUI/js/plugins/ligerToolBar.js" type="text/javascript"></script>
+    <script src="js/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
+    <script src="js/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script> 
+    <script src="js/lib/ligerUI/js/plugins/ligerFilter.js" type="text/javascript"></script>
+    <script src="js/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
+    <script src="js/lib/ligerUI/js/plugins/ligerTextBox.js" type="text/javascript"></script>
+    <script src="js/lib/ligerUI/js/plugins/ligerCheckBox.js" type="text/javascript"></script>
+    <script src="js/lib/ligerUI/js/plugins/ligerComboBox.js" type="text/javascript"></script>
+    <script src="js/lib/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
+    <script src="js/lib/ligerUI/js/plugins/ligerDateEditor.js" type="text/javascript"></script>
+    <script src="js/lib/ligerUI/js/plugins/ligerSpinner.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css" rel="external nofollow" >  
+    <link rel="stylesheet" type="text/css" href="easyui/themes/default/panel.css" rel="external nofollow" >  
+    <link rel="stylesheet" type="text/css" href="easyui/themes/icon.css" rel="external nofollow" > 
+    <script src="js/demos/filter/ligerGrid.showFilter.js" type="text/javascript"></script>
+    <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+<script type="text/javaScript">
+
+
+		$(function(){
+
+			$("#userok").click(function(){
+				var adminname=$("#adminname").val();
+				var password=$("#password").val();
+				var data={"adminname":adminname,"password":password};
+				$.ajax({
+					url:"User?opt=add&timeid="+new Date(),
+							type:"Get",
+							data:{
+								json:JSON.stringify(data)
+							},success:function(msg){
+							},
+							dataType:"json",
+							complete:function(){
+								alert("新增用户成功");
+								parent.$.ligerDialog.close();
+								parent.$(".l-dialog,.l-window-mask").remove();
+							}
+			});
+			});
+			
+			
+			
+			
+		});
+		
+
+</script>
+</head>
+<body>
+<form>
+<div align="center">
+<table>
+<tr><td><div style="height:40px"></div></td></tr>
+<tr>
+<td>用户名称</td><td><input type="text" name="adminname" id="adminname"/></td>
+</tr>
+
+<tr><td><div style="height:20px"></div></td></tr>
+
+<tr>
+<td>用户密码</td><td><input type="text" name="password" id="password"/></td>
+</tr>
+
+<tr><td><div style="height:40px"></div></td></tr>
+</table>
+</div>
+<div align="center">
+<input type="button" id="userok" style="height:40px;width:100px " value="确认"/>
+</div> 
+</form>
+</body>
+</html>
