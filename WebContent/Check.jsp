@@ -57,7 +57,7 @@
  	          	 $("#getname").val(name);
  	          	$.ajax({
    		    	 type:"GET",
-   				url:"Emp?opt=queryBydept&data="+name+"&timeid="+new Date(),
+   				url:"Check?opt=query&data="+name+"&timeid="+new Date(),
    				success:function(msg){
    					EmpData=msg;
    					 window['g'] = 
@@ -66,16 +66,43 @@
    				            { display: '员工姓名', name: 'employeename', align: 'left', width: 60 },
    				            { display: '员工卡号', name: 'cardnumber', Width: 60, align: 'center'},
    				            { display: '部门名称', name: 'departmentname', width: 200, align: 'center'},
-   				            { display: '考勤状态', name: 'typename', width: 200, align: 'center',
-   				            	editor:{
-   				            		type:'select',
-   				            		render:function(rowdata,rowindex){
-   				            			return "出差";
-   				            		}
-   				            		
-   				            	}},
-   				            { display: '关联单据', name: 'starttimepm', width: 200, align: 'center',editor:{type:'text'}},
-   				            { display: '备注', name: 'noteid', width: 200, align: 'center',editor:{type:'text'}}
+   				            { display: '考勤状态', name: 'typename', width: 200, align: 'center',editor : {
+								type : 'select',
+								data : [ {
+									typeId : 1,
+									text : '出勤'
+								}, {
+									typeId : 25,
+									text : '迟到'
+								}, {
+									typeId : 26,
+									text : '旷工'
+								},  {
+									typeId : 22,
+									text : '出差'
+								}, {
+									typeId : 2,
+									text : '倒休'
+								}, {
+									typeId : 3,
+									text : '事假'
+								}, {
+									typeId : 23,
+									text : '病假'
+								},{
+									typeId : 24,
+									text : '产假'
+								} ],
+								valueField : 'text',
+								textField : 'text'
+							},
+							render : function(row) {
+								/* var arr = new Array( "出勤", "迟到", "旷工",
+										 "出差", "倒休", "事假", "病假","产假"); */
+								return row.typename;
+							}},
+   				            { display: '关联单据', name: 'noteid', width: 200, align: 'center',editor:{type:'text'}},
+   				            { display: '备注', name: 'attendancememo', width: 200, align: 'center',editor:{type:'text'}}
    				            
    				            
    				            
@@ -111,6 +138,26 @@
     var EmpData="";
     	       $("#date1").ligerDateEditor();
     	       
+    	       $("#submit").click(function(){
+    	    	   g.endEdit();
+    	    	   var date=$("#date1").val();
+    	    	   var flag=$("#halfday").val();
+    	    	   var row=g.getSelectedRow();
+    	    	   
+    	    	   $.ajax({
+    	    		   url:"Check?opt=update&timeid="+new Date(),
+    	    				   type:"Get",
+    	    				   data:{
+    	    					   "startdate":date,"attendanceflag":flag,"employeename":row.employeename
+    	    	    			   ,"cardnumber":row.cardnumber,"typename":row.typename,"noteid":row.noteid,
+    	    	    			   "attendanceMemo":row.attendancememo
+    	    				   },
+    	    				   success:function(msg){
+    	    					   parent.window.$("#checkmg").click();
+    	    					   }
+    	    	   });
+    	       });
+    	       
             });
     </script>
 </head>
@@ -121,6 +168,7 @@
 <td>一级部门:</td><td><input type="text" id="one"/></td><td>二级部门:</td>
 <td><input type="text" id="two"/></td><td>考勤时间 :</td><td><input id="date1" type="text"/></td>
 <td>考勤时段：</td><td><input type="text" id="halfday"/></td>
+<td><input type="button" name="submit" id="submit" value="保存"></td>
 </tr>
 </table>
 </form>

@@ -1,12 +1,14 @@
 package com.ambow.daoImp;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.ambow.bean.CheckInfo;
 import com.ambow.bean.EmpInfo;
+import com.ambow.bean.PositionInfo;
 import com.ambow.dao.EmpDAO;
-import com.ambow.util.DBHelper;
+import com.ambow.util.DBUtil;
 import com.ambow.util.PageUtil;
 
 
@@ -15,35 +17,38 @@ public class EmpDAOImp implements EmpDAO{
 	public ArrayList<EmpInfo> query(PageUtil pageUtil) throws SQLException {
 		
 		ArrayList<EmpInfo> list = new ArrayList<EmpInfo>();
-		ResultSet set = DBHelper
-				.execQuery("select EmployeeID,EmployeeName,EmployeeGender,PositionID,DepartmentID,CardNumber,EmployeeState,EmployeeMemo from Att_Employees");
-
-		
+		Connection conn=DBUtil.getConnection();
+		String sql="select EmployeeID,EmployeeName,EmployeeGender,PositionName,DepartmentName,CardNumber,EmployeeState,EmployeeMemo from Att_Employees"
+				+ " left join Att_department on Att_department.departmentid=Att_employees.departmentid left join Att_position on Att_position.positionid=Att_employees.positionid";
+		conn.prepareStatement(sql);
+		ResultSet set = DBUtil.execQuery(sql);
 	while(set.next()) {
 		
-		int EmployeeID = set.getInt("EmployeeID");
+		String EmployeeID = set.getString("EmployeeID");
 		String EmployeeName = set.getString("EmployeeName");
 		String EmployeeGender = set.getString("EmployeeGender");
-		int PositionID = set.getInt("PositionID");
-		int DepartmentID = set.getInt("DepartmentID");
+		String PositionName = set.getString("PositionName");
+		String DepartmentName = set.getString("DepartmentName");
 		String CardNumber = set.getString("CardNumber");
 		String EmployeeState = set.getString("EmployeeState");
 		String EmployeeMemo = set.getString("EmployeeMemo");
-		EmpInfo info=new EmpInfo(EmployeeID, EmployeeName, EmployeeGender, PositionID, DepartmentID, CardNumber,EmployeeState, EmployeeMemo);
+		EmpInfo info=new EmpInfo(EmployeeID, EmployeeName, EmployeeGender, PositionName, DepartmentName, CardNumber,EmployeeState, EmployeeMemo);
 		list.add(info);
 		}
 	
 	if (set != null) {
 		set.close();
 	}
-	DBHelper.closeAll();
+	DBUtil.closeConnection(conn, set);
 	return list;
 	}
 
 	public ArrayList<EmpInfo> queryname() throws SQLException{
 		ArrayList<EmpInfo> list =new ArrayList<EmpInfo>();
+		Connection conn=DBUtil.getConnection();
 		String sql="select employeename from Att_employees";
-		ResultSet set = DBHelper.execQuery(sql);
+		conn.prepareStatement(sql);
+		ResultSet set = DBUtil.execQuery(sql);
 		while(set.next()) {
 			String employeename=set.getString("employeename");
 			EmpInfo info=new EmpInfo(employeename);
@@ -52,45 +57,42 @@ public class EmpDAOImp implements EmpDAO{
 		if (set != null) {
 			set.close();
 		}
-		DBHelper.closeAll();
+		DBUtil.closeConnection(conn, set);
 		return list;
 	}
-	public ArrayList<CheckInfo> checkemp(String data) throws SQLException{//Ô±¹¤¿¼ÇÚ
-		ArrayList<CheckInfo> list=new ArrayList<CheckInfo>();
-		String sql="select employeename,cardnumber,departmentname,attendancememo from Att_Employees"
-				+ " left join Att_department on Att_employees.departmentid=Att_department.departmentid left join"
-				+ " Att_attendancerecord on Att_employees.employeeid=Att_attendancerecord.employeeid where departmentname=?";
-		ResultSet set = DBHelper.execQuery(sql,data);
+	public ArrayList<PositionInfo> querypositionname() throws SQLException{
+		ArrayList<PositionInfo> list =new ArrayList<PositionInfo>();
+		Connection conn=DBUtil.getConnection();
+		String sql="select positionname from Att_position";
+		conn.prepareStatement(sql);
+		ResultSet set = DBUtil.execQuery(sql);
 		while(set.next()) {
-			String employeename=set.getString("employeename");
-			String cardnumber=set.getString("cardnumber");
-			String departmentname=set.getString("departmentname");
-			String attendancememo=set.getString("attendancememo");
-			CheckInfo info=new CheckInfo(employeename,cardnumber,departmentname,attendancememo);
+			String positionname=set.getString("positionname");
+			PositionInfo info=new PositionInfo(positionname);
 			list.add(info);
 		}
 		if (set != null) {
 			set.close();
 		}
-		DBHelper.closeAll();
+		DBUtil.closeConnection(conn, set);
 		return list;
-	}
-	
-	public void add(EmpInfo emp) throws SQLException {
-		String sql = "INSERT INTO Att_Employees (EmployeeName,EmployeeGender,PositionID,DepartmentID,CardNumber,EmployeeState,EmployeeMemo) VALUES(?,?,?,?,?,?,?)";
 		
-		DBHelper.execUpdate(sql, emp.getEmployeeName(),  emp.getEmployeeGender(),emp.getPositionID(),
-				emp.getDepartmentID(), emp.getCardNumber(), emp.getEmployeeState(),emp.getEmployeeMemo());
+	}
+	public void add(EmpInfo emp) throws SQLException {
+		String sql = "INSERT INTO Att_Employees (EmployeeName,EmployeeGender,PositionID,DepartmentID,CardNumber,EmployeeState,EmployeeMemo) VALUES(?,?,(select positionid from Att_position where positionname=?),(select departmentid from Att_department where departmentname=?),?,?,?)";
+		
+		DBUtil.execUpdate(sql, emp.getEmployeeName(),  emp.getEmployeeGender(),emp.getPositionName(),
+				emp.getDepartmentName(), emp.getCardNumber(), emp.getEmployeeState(),emp.getEmployeeMemo());
 	}
 	
 	public void update(EmpInfo emp) throws SQLException{
-		String sql="update Att_Employees set  EmployeeName=?,EmployeeGender=?, PositionID=?,DepartmentID=?,CardNumber=?,EmployeeState=?,EmployeeMemo=? where EmployeeID=?";
-		DBHelper.execUpdate(sql, emp.getEmployeeName(),  emp.getEmployeeGender(),emp.getPositionID(),
-				emp.getDepartmentID(), emp.getCardNumber(), emp.getEmployeeState(),emp.getEmployeeMemo(),emp.getEmployeeID());
+		String sql="update Att_Employees set  EmployeeName=?,EmployeeGender=?, PositionID=(select positionid from Att_position where positionname=?),DepartmentID=(select departmentid from Att_department where departmentname=?),CardNumber=?,EmployeeState=?,EmployeeMemo=? where EmployeeID=?";
+		DBUtil.execUpdate(sql, emp.getEmployeeName(),  emp.getEmployeeGender(),emp.getPositionName(),
+				emp.getDepartmentName(), emp.getCardNumber(), emp.getEmployeeState(),emp.getEmployeeMemo(),emp.getEmployeeID());
 	}
 	public void delete(int data) throws SQLException {
 		String sql="delete from Att_Employees where EmployeeID=?";
-		DBHelper.execUpdate(sql,data);
+		DBUtil.execUpdate(sql,data);
 	}
 
 	@Override
@@ -104,4 +106,7 @@ public class EmpDAOImp implements EmpDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
 }

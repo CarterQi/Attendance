@@ -15,23 +15,21 @@ import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.ambow.bean.LeaveInfo;
 import com.ambow.bean.NotesInfo;
-import com.ambow.daoImp.LeaveDAOImp;
-
+import com.ambow.daoImp.TravelDAOImp;
 
 /**
- * Servlet implementation class Leave
+ * Servlet implementation class Travel
  */
-@WebServlet("/Leave")
-public class Leave extends HttpServlet {
-	LeaveDAOImp dao=new LeaveDAOImp();
+@WebServlet("/Travel")
+public class Travel extends HttpServlet {
+	TravelDAOImp dao=new TravelDAOImp();
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Leave() {
+    public Travel() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,42 +39,6 @@ public class Leave extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		if(request.getParameter("opt").equals("queryname")) {
-			try {
-				ArrayList<LeaveInfo> list=dao.queryname();
-				String name=JSON.toJSONString(list);
-				response.setContentType("text/html;charset=utf-8");
-				PrintWriter out = response.getWriter();
-				out.print(name);
-				out.flush();
-				out.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if(request.getParameter("opt").equals("add")) {
-			HttpServletRequest req = (HttpServletRequest)request;
-			HttpSession session=req.getSession();	
-			String adminname=(String) session.getAttribute("username");
-			String application=request.getParameter("application");
-			String daili=request.getParameter("daili");
-			String typename=request.getParameter("cktype");
-			String date=request.getParameter("date");
-			String startdate=request.getParameter("startdate");
-			String enddate=request.getParameter("enddate");
-			String why=request.getParameter("text1");
-			String opnion=request.getParameter("text2");
-			String sign=request.getParameter("text3");
-			String chk=request.getParameter("text4");
-			NotesInfo info=new NotesInfo(adminname,application,daili,typename,date,startdate,enddate,why,opnion,sign,chk);
-			try {
-				dao.add(info);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		if(request.getParameter("opt").equals("query")) {
 			HttpServletRequest req = (HttpServletRequest)request;
 			HttpSession session=req.getSession();	
@@ -97,23 +59,25 @@ public class Leave extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		if(request.getParameter("opt").equals("queryBydept")) {
+		if(request.getParameter("opt").equals("add")) {
 			HttpServletRequest req = (HttpServletRequest)request;
 			HttpSession session=req.getSession();	
 			String adminname=(String) session.getAttribute("username");
+			String application=request.getParameter("application");
+			String date=request.getParameter("date");
+			String startdate=request.getParameter("startdate");
+			String enddate=request.getParameter("enddate");
+			String why=request.getParameter("text1");
+			String pjname=request.getParameter("text2");
+			String sign=request.getParameter("text3");
+			String typeid="22";
+			String typename="³ö²î";
+			String operatorid="1";
+			NotesInfo info=new NotesInfo(typeid,operatorid,adminname,application,typename,date,startdate,startdate,enddate,why,pjname,sign);
 			try {
-				ArrayList<NotesInfo> list=dao.query(adminname);
-				HashMap<String,Object> map=new HashMap<String,Object>();
-				map.put("Rows", list);
-				map.put("Total", list.size());
-				String Data=JSON.toJSONString(map);
-				response.setContentType("text/html;charset=utf-8");
-				PrintWriter out = response.getWriter();
-				out.print(Data);
-				out.flush();
-				out.close();
+				dao.add(info);
 			} catch (SQLException e) {
-			
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

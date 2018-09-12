@@ -20,6 +20,7 @@ import com.ambow.bean.DeptInfo;
 import com.ambow.bean.UserInfo;
 import com.ambow.daoImp.PowerDAOImp;
 import com.ambow.util.DBHelper;
+import com.ambow.util.DBUtil;
 
 /**
  * Servlet implementation class Power
@@ -99,8 +100,8 @@ public class Power extends HttpServlet {
 	        String[] str=id.split(",");
 	        String sql2="delete from Att_AdminPopedom where adminid=(select adminid from Att_User where adminname=?)";
 			try {
-				DBHelper.execUpdate(sql2,name);
-				DBHelper.closeAll();
+				DBUtil.execUpdate(sql2,name);
+				
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

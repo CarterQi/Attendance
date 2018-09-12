@@ -88,6 +88,23 @@ public class Dept extends HttpServlet {
 				e.printStackTrace();
 			}
 	}
+		if( request.getParameter("opt").equals("queryname") ) {
+		
+			ArrayList<DeptInfo> list;
+			try {
+				list = dao.queryname();
+				String name=JSON.toJSONString(list);
+				response.setContentType("text/html;charset=utf-8");
+				PrintWriter out = response.getWriter();
+				out.print(name);
+				out.flush();
+				out.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 if(request.getParameter("opt").equals("add")) {
 			
 			try {

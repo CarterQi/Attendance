@@ -28,7 +28,7 @@
     $.ligerDefaults.Filter.operators['text'] =
     ["like" , "equal", "notequal", "startwith", "endwith" ];
 
-   
+   var manager="";
     var dialog = frameElement.dialog; //调用页面的dialog对象(ligerui对象)
     var parentid = dialog.get('data');//获取data参数
         $(function ()
@@ -41,7 +41,7 @@
 			url:"Dept?opt=manage&data="+parentid+"&timeid="+new Date(),
 			success:function(msg){
 				DeptData=msg;
-				 window['g'] = 
+				manager= window['g'] = 
 			            $("#maingrid4").ligerGrid({
 			                columns: [
 			            { display: '部门号', name: 'departmentid', align: 'center', width: 60 },
@@ -128,6 +128,7 @@
 	    	  
 	      }
 	      function item_del_click(){
+	    	  alert("请确保二级部门里没有员工，否则删除失败");
 	    	  var row = g.getSelectedRow();
 	            if (!row) { alert('请选择行'); return; };
 	            $.ajax({
@@ -137,11 +138,16 @@
 	    					data:row.departmentid
 	    				},
 	    				success:function(msg){
-	    				
+	    					if(msg=='success'){
+	    						alert("删除数据成功");
+	    					}else{
+	    						alert("请确保二级部门里没有员工,删除部门失败");
+	    					}
+	    					
 	    					},
 	    					complete:function(msg){
 	    						
-	    							alert("删除数据成功");
+	    							
 		    						g.deleteSelectedRow();
 		    			
 	    					

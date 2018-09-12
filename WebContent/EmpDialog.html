@@ -31,12 +31,12 @@
     	$("#submit").click(function(){
     		var employeename=$("#employeename").val();
     		var employeegender=$("#employeegender").val();
-    		var positionid=$("#positionid").val();
-    		var departmentid=$("#departmentid").val();
+    		var positionname=$("#positionname").val();
+    		var departmentname=$("#departmentname").val();
     		var cardnumber=$("#cardnumber").val();
     		var employeestate=$("#employeestate").val();
     		var employeememo=$("#employeememo").val();
-    		var data={"employeename":employeename,"employeegender":employeegender,"positionid":positionid,"departmentid":departmentid,
+    		var data={"employeename":employeename,"employeegender":employeegender,"positionname":positionname,"departmentname":departmentname,
 				"cardnumber":cardnumber,"employeestate":employeestate,"employeememo":employeememo
 				};
     		$.ajax({
@@ -57,8 +57,30 @@
     		});
     		
     	});
+    	$("#positionname").ligerComboBox({
+        	url:"Emp?opt=querypositionname&timeid="+new Date(),
+    		 valueFieldID : 'positionid',  
+             valueField: 'positionname',//请求参数key  
+             textField: 'positionname',//搜索框输入的值
+            isMultiSelect: false,
+            onSelected:function(name){
+            	alert(name);
+            }
+        
+            });
+    	$("#departmentname").ligerComboBox({
+        	url:"Dept?opt=queryname&timeid="+new Date(),
+    		 valueFieldID : 'departmentid',  
+             valueField: 'departmentname',//请求参数key  
+             textField: 'departmentname',//搜索框输入的值
+            isMultiSelect: false,
+            onSelected:function(name){
+            	alert(name);
+            }
+        
+            });
     });
-      
+    
    
     </script>
 
@@ -68,12 +90,12 @@
     <form>
     <table>
      <tr>
-    <td>员工姓名</td><td>性别</td><td>职务编号</td><td>部门编号</td><td>员工卡号</td><td>员工状态</td><td>备注</td>
+    <td>员工姓名</td><td>性别</td><td>职务名称</td><td>部门名称</td><td>员工卡号</td><td>员工状态</td><td>备注</td>
     </tr>
     <tr>
     <td><input type="text"  id="employeename"/></td>
-    <td ><input type="text" id="employeegender"/></td><td><input type="text" id="positionid"/></td>
-    <td ><input type="text" id="departmentid"/></td><td><input type="text" id="cardnumber"/></td>
+    <td ><input type="text" id="employeegender"/></td><td><input type="text" id="positionname"/></td>
+    <td ><input type="text" id="departmentname"/></td><td><input type="text" id="cardnumber"/></td>
     <td ><input type="text" id="employeestate"/></td><td ><input type="text" id="employeememo"/></td>
     </tr>
     </table>

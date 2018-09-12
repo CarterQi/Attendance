@@ -130,6 +130,7 @@
 	    	  
 	      }
 	      function item_del_click(){
+	    	  alert("请确保一级部门里没有员工，否则删除失败");
 	    	  var row = g.getSelectedRow();
 	            if (!row) { alert('请选择行'); return; };
 	            $.ajax({
@@ -140,10 +141,15 @@
 	    				},
 	    				success:function(msg){
 	    				
+	    					if(msg='success'){
+	    						alert("删除数据成功");
+	    					}else{
+	    						alert("请确保一级部门里没有员工，删除失败");
+	    					}
 	    					},
 	    					complete:function(msg){
 	    						
-	    							alert("删除数据成功");
+	    							
 		    						g.deleteSelectedRow();
 		    					
 	    					}

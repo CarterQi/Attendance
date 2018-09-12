@@ -20,51 +20,59 @@
 	 $("#date").ligerDateEditor();
 	 $("#startdate").ligerDateEditor();
 	 $("#enddate").ligerDateEditor();
-	
+	 
+	 $("#application1").ligerComboBox({        //申请人下拉框
+		 	url:"Emp?opt=queryname&timeid="+new Date(),
+				 valueFieldID : 'employeeID',  
+		      valueField: 'employeeName',//请求参数key  
+		      textField: 'employeeName',//搜索框输入的值
+		     isMultiSelect: false,
+		     onSelected:function(name){
+		    	 alert(name);
+		     }
+		     });
+	 $("#daili").ligerComboBox({                //代理人下拉框
+		 	url:"Emp?opt=queryname&timeid="+new Date(),
+				 valueFieldID : 'employeeID',  
+		      valueField: 'employeeName',//请求参数key  
+		      textField: 'employeeName',//搜索框输入的值
+		     isMultiSelect: false,
+		     onSelected:function(name){
+		    	 alert(name);
+		     }
+		     });
+	 $("#cktype1").ligerComboBox({             //请假类型
+		 	url:"Leave?opt=queryname&timeid="+new Date(),
+				 
+		      valueField: 'typename',//请求参数key  
+		      textField: 'typename',//搜索框输入的值
+		     isMultiSelect: false,
+		     onSelected:function(name){
+		    	 alert(name);
+		     }
+		     });
+
+	 $("#btnok").click(function(){
+		 data=$("form").serialize() ;
+	   $.ajax({
+			 url:"Leave?opt=add&timeid="+new Date(),
+		     type:"get",
+		     data:data,
+		     success:function(msg){
+		    	 
+		     },complete:function(){
+					alert("新增数据成功");
+					parent.$.ligerDialog.close();
+					parent.$(".l-dialog,.l-window-mask").remove();
+		
+				},dataType:"json"
+		 });
+	 });
 	 
  });
- $("#application").ligerComboBox({        //申请人下拉框
- 	url:"Emp?opt=queryname&timeid="+new Date(),
-		 valueFieldID : 'employeeID',  
-      valueField: 'employeeName',//请求参数key  
-      textField: 'employeeName',//搜索框输入的值
-     isMultiSelect: false,
-     onSelected:function(name){
-    	 alert(name);
-     }
-     });
- $("#daili").ligerComboBox({                //代理人下拉框
-	 	url:"Emp?opt=queryname&timeid="+new Date(),
-			 valueFieldID : 'employeeID',  
-	      valueField: 'employeeName',//请求参数key  
-	      textField: 'employeeName',//搜索框输入的值
-	     isMultiSelect: false,
-	     onSelected:function(name){
-	    	 alert(name);
-	     }
-	     });
- $("#cktype").ligerComboBox({             //请假类型
-	 	url:"Leave?opt=queryname&timeid="+new Date(),
-			 
-	      valueField: 'typename',//请求参数key  
-	      textField: 'typename',//搜索框输入的值
-	     isMultiSelect: false,
-	     onSelected:function(name){
-	    	 alert(name);
-	     }
-	     });
- $("#btnok").click(function(){
-	 data=$("form").serialize() ;
-	 alert(data);
-   $.ajax({
-		 url:"Leave?opt=add&timeid="+new Date(),
-	     type:"get",
-	     data:data,
-	     success:function(msg){
-	    	 
-	     },dataType:"json"
-	 });
- });
+ 
+ 
+ 
  </script>
 </head>
 <body>
@@ -73,8 +81,8 @@
 <form id="form">
 <table>
 <tr>
-<td>申请人：<input type="text" id="application" name="application"/></td><td>代理人：<input type="text" id="daili" name="daili"/></td>
-<td>请假类型：<input type="text" id="cktype" name="cktype"/></td>
+<td>申请人：<input type="text" id="application1" name="application"/></td><td>代理人：<input type="text" id="daili" name="daili"/></td>
+<td>请假类型：<input type="text" id="cktype1" name="cktype"/></td>
 </tr>
 <tr>
 <td>填表日期：<input type="text" id="date" name="date"/></td>

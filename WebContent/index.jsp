@@ -24,6 +24,8 @@
                 		$("#center").load("Check.jsp");
                 	});
                 	
+                
+                	
                 	$("#rootmg").click(function(){//权限管理
                 		$("#center").load("root.html");
                 	});
@@ -103,6 +105,7 @@
                     <li><div id="checkmg" style="cursor:pointer;height:40px;font-size:20px;background-color:orange;
                     border-bottom:2px solid white" align="center">员工考勤</div></li>
                 </ul>
+                
             
         </div> 
         <div title="单据管理" > 

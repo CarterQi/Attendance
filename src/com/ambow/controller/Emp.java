@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.ambow.bean.CheckInfo;
 import com.ambow.bean.EmpInfo;
+import com.ambow.bean.PositionInfo;
 import com.ambow.daoImp.EmpDAOImp;
 import com.ambow.util.PageUtil;
 
@@ -26,6 +26,7 @@ import com.ambow.util.PageUtil;
 public class Emp extends HttpServlet {
 	 PageUtil pageUtil=new PageUtil();
 	EmpDAOImp dao=new EmpDAOImp();
+	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -65,24 +66,19 @@ public class Emp extends HttpServlet {
 		}
 		
 		}
-		if( request.getParameter("opt").equals("queryBydept") ) {
-			String data=request.getParameter("data");
+		if( request.getParameter("opt").equals("querypositionname") ) {
 			try {
-				ArrayList<CheckInfo> list=dao.checkemp(data);
-				HashMap<String,Object> map=new HashMap<String,Object>();
-				map.put("Rows", list);
-				map.put("Total", list.size());
-				String EmpData=JSON.toJSONString(map);
+				ArrayList<PositionInfo> list=dao.querypositionname();
+				String name=JSON.toJSONString(list);
 				response.setContentType("text/html;charset=utf-8");
 				PrintWriter out = response.getWriter();
-				out.print(EmpData);
+				out.print(name);
 				out.flush();
 				out.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		}
 		if(request.getParameter("opt").equals("add")) {
 			

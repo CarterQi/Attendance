@@ -7,6 +7,13 @@ public class NotesInfo {
 	private String employeename;
 	private String operatorname;
 	private String typename;
+	private String typeid;
+	public String getTypeid() {
+		return typeid;
+	}
+	public void setTypeid(String typeid) {
+		this.typeid = typeid;
+	}
 	private String notetypeid;
 	private String cause;
 	private String fillintime;
@@ -21,7 +28,14 @@ public class NotesInfo {
 	private String adminid;
 	private String notememo;
 	private String operatorid;
+	private String adminname;
 	
+	public String getAdminname() {
+		return adminname;
+	}
+	public void setAdminname(String adminname) {
+		this.adminname = adminname;
+	}
 	public String getEmployeename() {
 		return employeename;
 	}
@@ -30,12 +44,49 @@ public class NotesInfo {
 			 String starttime, String endtime) {
 		super();
 		this.noteid = noteid;
+		this.fillintime=fillintime;
+		this.cause=cause;
 		this.employeename = employeename;
 		this.operatorname = operatorname;
 		this.typename = typename;
 		this.startdate = startdate;
 		this.starttime = starttime;
 		this.endtime = endtime;
+		this.adminid = adminid;
+	}
+	public NotesInfo(String adminname,String employeename,String operatorname,String typename,
+			String fillintime,String starttime,String endtime,String cause,
+			String directorsign,String administrationsign,String persidentsign) {
+		this.adminname=adminname;
+		this.employeename=employeename;
+		this.operatorname=operatorname;
+		this.typename=typename;
+		this.fillintime=fillintime;
+		this.starttime=starttime;
+		this.endtime=endtime;
+		this.cause=cause;
+		this.directorsign=directorsign;
+		this.administrationsign=administrationsign;
+		this.persidentsign=persidentsign;
+		
+		
+	}
+	public NotesInfo(String typeid,String operatorid,String adminname,String employeename,String typename,String fillintime,String startdate,
+			String starttime,String endtime,String cause,String projectname,String directorsign) {
+		this.typeid=typeid;
+		this.operatorid=operatorid;
+		this.adminname=adminname;
+		this.typename=typename;
+		this.employeename=employeename;
+		this.fillintime=fillintime;
+		this.startdate=startdate;
+		this.starttime=starttime;
+		this.endtime=endtime;
+		this.cause=cause;
+		this.projectname=projectname;
+		this.directorsign=directorsign;
+
+		
 	}
 	public NotesInfo(String noteid, String employeeid, String employeename, String operatorname, String typename,
 			String notetypeid, String cause, String fillintime, String directorsign, String administrationsign,
@@ -62,6 +113,7 @@ public class NotesInfo {
 		this.notememo = notememo;
 		this.operatorid = operatorid;
 	}
+	
 	public void setEmployeename(String employeename) {
 		this.employeename = employeename;
 	}

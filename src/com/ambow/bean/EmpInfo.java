@@ -1,22 +1,42 @@
 package com.ambow.bean;
 
 public class EmpInfo {
-	private int EmployeeID;
+	private String EmployeeID;
 	private String EmployeeName;
 	private String EmployeeGender;
-	private int PositionID;
-	private int DepartmentID;
+	private String PositionID;
+	private String DepartmentID;
+	private String DepartmentName;
+	private String PositionName;
+	public String getDepartmentName() {
+		return DepartmentName;
+	}
+
+	public void setDepartmentName(String departmentName) {
+		DepartmentName = departmentName;
+	}
+
+	public String getPositionName() {
+		return PositionName;
+	}
+
+	public void setPositionName(String positionName) {
+		PositionName = positionName;
+	}
+
+
+
 	private String CardNumber;
 	private String EmployeeState;
 	private String EmployeeMemo;
-	public EmpInfo(int employeeID, String employeeName, String employeeGender, int positionID, int departmentID,
+	public EmpInfo(String employeeID, String employeeName, String employeeGender, String positionName, String departmentName,
 			String cardNumber, String employeeState, String employeeMemo) {
 		super();
 		EmployeeID = employeeID;
 		EmployeeName = employeeName;
 		EmployeeGender = employeeGender;
-		PositionID = positionID;
-		DepartmentID = departmentID;
+		PositionName = positionName;
+		DepartmentName = departmentName;
 		CardNumber = cardNumber;
 		EmployeeState = employeeState;
 		EmployeeMemo = employeeMemo;
@@ -25,11 +45,11 @@ public class EmpInfo {
 	public EmpInfo(String employeeName) {
 		this.EmployeeName=employeeName;
 	}
-	public int getEmployeeID() {
+	public String getEmployeeID() {
 		return EmployeeID;
 	}
 
-	public void setEmployeeID(int employeeID) {
+	public void setEmployeeID(String employeeID) {
 		EmployeeID = employeeID;
 	}
 
@@ -49,19 +69,19 @@ public class EmpInfo {
 		EmployeeGender = employeeGender;
 	}
 
-	public int getPositionID() {
+	public String getPositionID() {
 		return PositionID;
 	}
 
-	public void setPositionID(int positionID) {
+	public void setPositionID(String positionID) {
 		PositionID = positionID;
 	}
 
-	public int getDepartmentID() {
+	public String getDepartmentID() {
 		return DepartmentID;
 	}
 
-	public void setDepartmentID(int departmentID) {
+	public void setDepartmentID(String departmentID) {
 		DepartmentID = departmentID;
 	}
 

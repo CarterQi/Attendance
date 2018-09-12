@@ -48,8 +48,8 @@
 			            { display: '性别', name: 'employeeGender', width: 120, align: 'left',editor: { type: 'text' },
 		                	render :function(item, index){
 		                		return item.employeeGender==1?'男':'女';}},
-			            { display: '职务编号', name: 'positionID', width: 120, align: 'left',editor: { type: 'text' }},
-			            { display: '部门编号', name: 'departmentID', heightAlign: 'center',editor: { type: 'text' }},
+			            { display: '职务名称', name: 'positionName', width: 120, align: 'left',editor: { type: 'text' }},
+			            { display: '部门名称', name: 'departmentName', heightAlign: 'center',editor: { type: 'text' }},
 			            { display: '员工卡号', name: 'cardNumber', width: 170, align: 'right',editor: { type: 'text' } },
 			            { display: '员工状态', name: 'employeeState', width: 170, align: 'right',editor: { type: 'text' } },
 			            { display: '备注', name: 'employeeMemo', width: 170, align: 'right',editor: { type: 'text' } }
@@ -111,8 +111,8 @@
 	    	  if(row.employeeMemo==null){//如果有字段为null,后台传的json把空字段过滤掉，导致空指针异常
 	    		  row.employeeMemo="";
 	    	  }
-	    	  var data={"EmployeeName":row.employeeName,"EmployeeGender":row.employeeGender,"PositionID":row.positionID,
-					"DepartmentID":row.departmentID,"CardNumber":row.cardNumber,"EmployeeState":row.employeeState,
+	    	  var data={"EmployeeName":row.employeeName,"EmployeeGender":row.employeeGender,"PositionName":row.positionName,
+					"DepartmentName":row.departmentName,"CardNumber":row.cardNumber,"EmployeeState":row.employeeState,
 					"EmployeeMemo":row.employeeMemo,"EmployeeID":row.employeeID};
 	            if (!row) { alert('请选择行'); return; }
 	            $.ajax({

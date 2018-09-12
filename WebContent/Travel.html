@@ -20,51 +20,53 @@
 	 $("#date").ligerDateEditor();
 	 $("#startdate").ligerDateEditor();
 	 $("#enddate").ligerDateEditor();
+	
+	 $("#application").ligerComboBox({        //申请人下拉框
+		 	url:"Emp?opt=queryname&timeid="+new Date(),
+				 valueFieldID : 'employeeID',  
+		      valueField: 'employeeName',//请求参数key  
+		      textField: 'employeeName',//搜索框输入的值
+		     isMultiSelect: false,
+		     onSelected:function(name){
+		    	 alert(name);
+		     }
+		     });
+	 $("#btnok").click(function(){
+		 data=$("form").serialize() ;
+	   $.ajax({
+			 url:"Travel?opt=add&timeid="+new Date(),
+		     type:"get",
+		     data:data,
+		     success:function(msg){
+		    	 
+		     },dataType:"json"
+		 });
+	 });
 	 
  });
- $("#traveler").ligerComboBox({        //申请人下拉框
- 	url:"Emp?opt=queryname&timeid="+new Date(),
-		 valueFieldID : 'employeeID',  
-      valueField: 'employeeName',//请求参数key  
-      textField: 'employeeName',//搜索框输入的值
-     isMultiSelect: false,
-     onSelected:function(name){
-    	 alert(name);
-     }
-     });
 
 
- $("#btnok").click(function(){
-	 data=$("form").serialize() ;
-	 alert(data);
-   $.ajax({
-		 url:"Travel?opt=add&timeid="+new Date(),
-	     type:"get",
-	     data:data,
-	     success:function(msg){
-	    	 
-	     },dataType:"json"
-	 });
- });
  </script>
 </head>
 <body>
 <h1>添加出差单</h1>
 <div align="center">
 <form id="form">
-
-申请人：<input type="text" id="traveler" name="application"/>
-<div style="height:20px"></div>
-项目名称：<input type="text" id="proname" name="proname"/><br/>
-<div style="height:20px"></div>
-出差事由：<textarea id="why" name="why"></textarea><br/>
-<div style="height:20px"></div>
-出差起始日期：<input type="text" id="startdate" name="startdate"/><br/>
-<div style="height:20px"></div>
-出差截止日期：<input type="text" id="enddate" name="enddate"/><br/>
-<div style="height:20px"></div>
-主管经理意见：<textarea id="opnion" name="opnion"></textarea><br/>
-<div style="height:20px"></div>
+<table>
+<tr>
+<td>出差人姓名：<input type="text" id="application" name="application"/></td>
+</tr>
+<tr>
+<td>填表日期：<input type="text" id="date" name="date"/></td>
+<td>
+出差起始时间：<input type="text" id="startdate" name="startdate"/>
+</td>
+<td>出差截止时间：<input type="text" id="enddate" name="enddate"></td>
+</tr>
+</table>
+出差事由：<textarea id="text1" name="text1"></textarea><br/>
+项目名称：<textarea id="text2" name="text2"></textarea><br/>
+主管经理意见：<textarea id="text3" name="text3"></textarea><br/>
 <input type="button" id="btnok" value="提交"/>
 </form>
 </div>

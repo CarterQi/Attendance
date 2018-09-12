@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>请假单管理</title>
+<title>出差单管理</title>
 <link href="js/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
 <link href="js/lib/ligerUI/skins/ligerui-icons.css" rel="stylesheet" type="text/css" />
     <script src="js/lib/jquery/jquery-1.9.0.min.js" type="text/javascript"></script>
@@ -24,7 +24,7 @@
 	 $("#date").ligerDateEditor();
 	 
 	  $.ajax({
-		 url:"Leave?opt=query&timeid="+new Date(),
+		 url:"Travel?opt=query&timeid="+new Date(),
 				 type:"get",
 				 success:function(msg){
 					 Notedata=msg;
@@ -83,8 +83,8 @@
 	   $.ligerDialog.open({
            height:1000,
            width: 1000,
-           title : '新增请假单',
-           url: 'Leave.html', 
+           title : '新增出差单',
+           url: 'Travel.html', 
            showMax: false,
            showToggle: true,
            showMin: false,
@@ -97,7 +97,7 @@
 	   var data="";
 	   var row = g.getSelectedRow();
 	   $.ajax({
-		   url:"Leave?opt=delete&timeid="+new Date(),
+		   url:"Travel?opt=delete&timeid="+new Date(),
 				   type:"Get",
 				   data:{data:row.noteid},
 				   success:function(msg){
@@ -116,7 +116,7 @@
          if (!row) { alert('请选择行'); return; }
          $.ajax({
  			type:"Get",
- 			url:"Leave?opt=update&timeid="+new Date(),
+ 			url:"Travel?opt=update&timeid="+new Date(),
  				data:{"json":JSON.stringify(data),"noteid":row.noteid},
 
  				success:function(msg){
@@ -124,7 +124,7 @@
  					dataType:"text",
  					complete:function(){
  						alert("修改数据成功");
- 						parent.window.$("#leavemg").click();
+ 						parent.window.$("#travelmg").click();
  					}
  		});
    }
@@ -148,11 +148,11 @@
 	          	 $("#getname").val(name);
 	          	$.ajax({
 		    	 type:"GET",
-				url:"leave?opt=queryBydept&data="+name+"&timeid="+new Date(),
+				url:"Emp?opt=queryBydept&data="+name+"&timeid="+new Date(),
 				success:function(msg){
 					EmpData=msg;
 					 window['g'] = 
-				            $("#deptList").ligerGrid({
+				            $("#maingrid4").ligerGrid({
 				                columns: [
 				            { display: '员工姓名', name: 'employeename', align: 'left', width: 60 },
 				            { display: '员工卡号', name: 'cardnumber', Width: 60, align: 'center'},
@@ -205,33 +205,23 @@
 	     }
 	     });
  
+
  
- $("#add").click(function(){
-	 data=$("form").serialize() ;
-	 alert(data);
-   $.ajax({
-		 url:"Travel?opt=add&timeid="+new Date(),
-	     type:"get",
-	     data:data,
-	     success:function(msg){
-	    	 
-	     },dataType:"json"
-	 });
- });
  </script>
 </head>
 <body>
 <div align="center">
 <form id="form">
-<!-- <table>
+<table>
 <tr>
 
-<td>
+<!-- <td>
 一级部门:<input type="text" id="one"/></td>
 <td>二级部门:<input type="text" id="two"/></td>
-
+<td>申请日期：<input type="text" id="date" name="date"/></td>
+<td>员工：<input type="text" id="application" name="application"/></td> -->
 </tr>
-</table> -->
+</table>
 <div style="height:20px"></div>
 <div id="maingrid4" style="margin: 0; padding: 0"></div>
 </form> 

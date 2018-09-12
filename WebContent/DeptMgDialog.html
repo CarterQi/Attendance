@@ -50,8 +50,11 @@
 							dataType:"json",
 							complete:function(){
 								alert("新增部门成功");
+								window.parent.manager.reload();
 								parent.$.ligerDialog.close();
 								parent.$(".l-dialog,.l-window-mask").remove();
+								
+								
 							}
 			});
 			});
